@@ -125,14 +125,10 @@ public class PowerWidget extends AppWidgetProvider {
           }
           ok = true;
         } else {
-          Log.w(TAG, "Could not find widget data source preference");
         }
       } catch(IOException e) {
-        Log.w(TAG, "Failed to extract widget data sources");
       } catch(ClassCastException e) {
-        Log.w(TAG, "Failed to extract widget data sources");
       } catch(ClassNotFoundException e) {
-        Log.w(TAG, "Failed to extract widget data sources");
       }
       if(!ok) {
         for(int i =0; i < text_ids.length; i++) {

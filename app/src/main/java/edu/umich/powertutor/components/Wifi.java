@@ -167,7 +167,6 @@ public class Wifi extends PowerComponent {
     if(transmitPackets == -1 || receivePackets == -1 ||
        transmitBytes == -1 || receiveBytes == -1) {
       /* Couldn't read interface data files. */
-      Log.w(TAG, "Failed to read packet and byte counts from wifi interface");
       return result;
     }
 
@@ -220,7 +219,6 @@ public class Wifi extends PowerComponent {
             "/proc/uid_stat/" + uid + "/tcp_snd");
 
         if(receiveBytes == -1 || transmitBytes == -1) {
-          Log.w(TAG, "Failed to read uid read/write byte counts");
         } else if(uidState.isInitialized()) {
           /* We only have information about bytes received but what we really
            * want is the number of packets received so we just have to
@@ -257,7 +255,6 @@ public class Wifi extends PowerComponent {
           uidState.updateState(0, 0, transmitBytes, receiveBytes);
         }
       } catch(NumberFormatException e) {
-        Log.w(TAG, "Non-uid files in /proc/uid_stat");
       }
     }
 

@@ -87,4 +87,6 @@ the android options.
 
 <string name="url_1">For detailed information, please go to: </string>
 <string name="url_2"><a href = "http://powertutor.org">http://powertutor.org</a>.\n</string>
+<string name="waiting_profiler_service">Waiting for profiler service&#8230;</string>
+
 </resources>

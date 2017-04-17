@@ -180,7 +180,6 @@ public class Threeg extends PowerComponent {
     long receiveBytes = readLongFromFile(readBytesFile);
     if(transmitBytes == -1 || receiveBytes == -1) {
       /* Couldn't read interface data files. */
-      Log.w(TAG, "Failed to read packet and byte counts from wifi interface");
       return result;
     }
 
@@ -225,7 +224,6 @@ public class Threeg extends PowerComponent {
         transmitBytes = readLongFromFile("/proc/uid_stat/" + uid + "/tcp_snd");
 
         if(receiveBytes == -1 || transmitBytes == -1) {
-          Log.w(TAG, "Failed to read uid read/write byte counts");
         } else if(uidState.isInitialized()) {
           uidState.updateState(-1, -1, transmitBytes, receiveBytes,
                                dchFachDelay, fachIdleDelay,
@@ -245,7 +243,6 @@ public class Threeg extends PowerComponent {
                                uplinkQueueSize, downlinkQueueSize);
         }
       } catch(NumberFormatException e) {
-        Log.w(TAG, "Non-uid files in /proc/uid_stat");
       }
     }
 
@@ -300,13 +297,7 @@ public class Threeg extends PowerComponent {
         inactiveTime = inactive ? inactiveTime + curTime - lastTime : 0;
 
         // TODO: make this always work.
-        int timeMult = 1;
-        if(1000 % PowerEstimator.ITERATION_INTERVAL != 0) {
-          Log.w(TAG,
-            "Cannot handle iteration intervals that are a factor of 1 second");
-        } else {
-          timeMult = 1000 / PowerEstimator.ITERATION_INTERVAL;
-        }
+        int timeMult = 1000 / PowerEstimator.ITERATION_INTERVAL;
 
         switch(powerState) {
           case POWER_STATE_IDLE:

@@ -160,27 +160,22 @@ public class SystemInfo {
     try {
       methodGetUidForPid = Process.class.getMethod("getUidForPid", int.class);
     } catch(NoSuchMethodException e) {
-      Log.w(TAG, "Could not access getUidForPid method");
     }
     try {
       methodGetPids = Process.class.getMethod("getPids", String.class,
                                               int[].class);
     } catch(NoSuchMethodException e) {
-      Log.w(TAG, "Could not access getPids method");
     }
     try {
       methodReadProcFile = Process.class.getMethod("readProcFile", String.class,
           int[].class, String[].class, long[].class, float[].class);
     } catch(NoSuchMethodException e) {
-      Log.w(TAG, "Could not access readProcFile method");
     }
     try {
       Class classSystemProperties = Class.forName("android.os.SystemProperties");
       methodGetProperty = classSystemProperties.getMethod("get", String.class);
     } catch(NoSuchMethodException e) {
-      Log.w(TAG, "Could not access SystemProperties.get");
     } catch(ClassNotFoundException e) {
-      Log.w(TAG, "Could not find class android.os.SystemProperties");
     }
     readBuf = new long[1];
   }
@@ -189,9 +184,7 @@ public class SystemInfo {
     if(methodGetUidForPid != null) try {
       return (Integer)methodGetUidForPid.invoke(null, pid);
     } catch(InvocationTargetException e) {
-      Log.w(TAG, "Call to getUidForPid failed");
     } catch(IllegalAccessException e) {
-      Log.w(TAG, "Call to getUidForPid failed");
     } else try {
       BufferedReader rdr = new BufferedReader(new InputStreamReader(
                         new FileInputStream("/proc/" + pid + "/status")), 256);
@@ -207,7 +200,6 @@ public class SystemInfo {
         }
       }
     } catch(IOException e) {
-      Log.w(TAG, "Failed to manually read in process uid");
     }
     return -1;
   }
@@ -232,9 +224,7 @@ public class SystemInfo {
     try {
       return (int[])methodGetPids.invoke(null, "/proc", lastPids);
     } catch(IllegalAccessException e) {
-      Log.w(TAG, "Failed to get process cpu usage");
     } catch(InvocationTargetException e) {
-      Log.w(TAG, "Exception thrown while getting cpu usage");
     }
     return null;
   }
@@ -245,9 +235,7 @@ public class SystemInfo {
   	try {
   	  return (String)methodGetProperty.invoke(null, property);
   	} catch(IllegalAccessException e) {
-  	  Log.w(TAG, "Failed to get property");
   	} catch(InvocationTargetException e) {
-  	  Log.w(TAG, "Exception thrown while getting property");
   	}
   	return null;
   }
@@ -261,9 +249,7 @@ public class SystemInfo {
     try {
       return (int[])methodGetPids.invoke(null, "/proc/uid_stat", lastUids);
     } catch(IllegalAccessException e) {
-      Log.w(TAG, "Failed to get process cpu usage");
     } catch(InvocationTargetException e) {
-      Log.w(TAG, "Exception thrown while getting cpu usage");
     }
     return null;
   }
@@ -299,9 +285,7 @@ public class SystemInfo {
           null, "/proc/" + pid + "/stat",
           PROCESS_STATS_FORMAT, null, times, null);
     } catch(IllegalAccessException e) {
-      Log.w(TAG, "Failed to get pid cpu usage");
     } catch(InvocationTargetException e) {
-      Log.w(TAG, "Exception thrown while getting pid cpu usage");
     }
     return false;
   }
@@ -326,9 +310,7 @@ public class SystemInfo {
         return true;
       }
     } catch(IllegalAccessException e) {
-      Log.w(TAG, "Failed to get total cpu usage");
     } catch(InvocationTargetException e) {
-      Log.w(TAG, "Exception thrown while getting total cpu usage");
     }
     return false;
   }
@@ -348,9 +330,7 @@ public class SystemInfo {
         return true;
       }
     } catch(IllegalAccessException e) {
-      Log.w(TAG, "Failed to get mem info");
     } catch(InvocationTargetException e) {
-      Log.w(TAG, "Exception thrown while getting mem info");
     }
     return false;
   }
@@ -364,9 +344,7 @@ public class SystemInfo {
         return readBuf[0];
       }
     } catch(IllegalAccessException e) {
-      Log.w(TAG, "Failed to get pid cpu usage");
     } catch(InvocationTargetException e) {
-      Log.w(TAG, "Exception thrown while getting pid cpu usage");
     }
     return -1L;
   }
@@ -390,7 +368,6 @@ public class SystemInfo {
 
   private String getAppIdNoCache(int uid, PackageManager pm) {
     if(uid < SystemInfo.AID_APP) {
-      Log.e(TAG, "Only pass application uids to getAppId");
       return null;
     }
     int versionCode = -1;

@@ -156,7 +156,6 @@ public class PowerPie extends Activity {
           }
           chartView.invalidate();
         } catch(Exception e) {
-          Log.w(TAG, "Failed to contact power tutor profiling service");
         }
         if(handler != null) {
           handler.postDelayed(this, 2 * PowerEstimator.ITERATION_INTERVAL);
@@ -198,7 +197,6 @@ public class PowerPie extends Activity {
       counterService = null;
       getApplicationContext().unbindService(conn);
       getApplicationContext().bindService(serviceIntent, conn, 0);
-      Log.w(TAG, "Unexpectedly lost connection to service");
     }
   }
 

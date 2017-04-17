@@ -83,8 +83,6 @@ public class Sensors extends PowerComponent {
     uidStates = new SparseArray<SensorStateKeeper>();
 
     if(!NotificationService.available()) {
-      Log.w(TAG, "Sensor component created although no notification service " +
-            "available to receive sensor usage information");
       return;
     }
     sensorManager = (SensorManager)context.getSystemService(
@@ -92,7 +90,6 @@ public class Sensors extends PowerComponent {
     sensorHook = new NotificationService.DefaultReceiver() {
       public void noteStartSensor(int uid, int sensor) {
         if(sensor < 0 || MAX_SENSORS <= sensor) {
-          Log.w(TAG, "Received sensor outside of accepted range");
           return;
         }
         synchronized(sensorState) {
@@ -108,7 +105,6 @@ public class Sensors extends PowerComponent {
 
       public void noteStopSensor(int uid, int sensor) {
         if(sensor < 0 || MAX_SENSORS <= sensor) {
-          Log.w(TAG, "Received sensor outside of accepted range");
           return;
         }
         synchronized(sensorState) {

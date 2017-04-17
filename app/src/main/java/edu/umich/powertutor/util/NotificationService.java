@@ -59,9 +59,7 @@ public class NotificationService {
       Class classServiceManager = Class.forName("android.os.ServiceManager");
       methodGetService = classServiceManager.getMethod("getService", String.class);
     } catch(NoSuchMethodException e) {
-      Log.w(TAG, "Could not find method gerService");
     } catch(ClassNotFoundException e) {
-      Log.w(TAG, "Could not find class android.os.ServiceManager");
     }
   }
   
@@ -70,9 +68,7 @@ public class NotificationService {
     try {
       return (IBinder)methodGetService.invoke(null, "batteryhook");
     } catch(InvocationTargetException e) {
-      Log.w(TAG, "Call to get service failed");
     } catch(IllegalAccessException e) {
-      Log.w(TAG, "Call to get service failed");
     }
     return null;
   }
@@ -91,10 +87,7 @@ public class NotificationService {
       if(hookState == STATE_INIT) {
         installHook();
       }
-      if(hookState != STATE_HOOK_INSTALLED) {
-        Log.w(TAG, "Attempted to add hook though no " +
-                   "notification service available");
-      } else {
+      if (hookState == STATE_HOOK_INSTALLED) {
         hooks.add(notif);
       }
     }
@@ -112,18 +105,16 @@ public class NotificationService {
     hookState = STATE_HOOK_FAILED;
     try {
       IBinder batteryHook = getBatteryService();
-      if(batteryHook == null) {
+      if (batteryHook != null) {
+        if (batteryHook.transact(0, outBinder, null, 0)) {
+          hookState = STATE_HOOK_INSTALLED;
+        }
+      } else {
         /* This should be the case on un-hacked phone.  Maybe one day
          * phones will support this service or similar by default.
          */
-        Log.i(TAG, "No power notification hook service installed");
-      } else if(!batteryHook.transact(0, outBinder, null, 0)) {
-        Log.w(TAG, "Failed to register forwarder");
-      } else {
-        hookState = STATE_HOOK_INSTALLED;
       }
     } catch(RemoteException e) {
-      Log.w(TAG, "Failed to register forwarder");
     }
     outBinder.recycle();
   }

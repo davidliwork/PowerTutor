@@ -296,7 +296,6 @@ public class UMLoggerService extends Service{
         } catch(ClassCastException e) {
           // Some people apparently are having this problem.  I'm not really
           // sure why this should happen.
-          Log.w(TAG, "Couldn't determine airplane mode state");
         }
       } else if(intent.getAction().equals(Intent.ACTION_BATTERY_LOW)) {
         powerEstimator.writeToLog("battery low\n");

@@ -49,6 +49,7 @@ import edu.umich.powertutor.R;
 import edu.umich.powertutor.phone.PhoneSelector;
 import edu.umich.powertutor.aidl.ICounterService;
 import edu.umich.powertutor.service.UMLoggerService;
+import edu.umich.powertutor.util.PermissionUtils;
 
 /** The main view activity for PowerTutor*/
 public class UMLogger extends Activity  {
@@ -292,17 +293,27 @@ public class UMLogger extends Activity  {
   private Button.OnClickListener serviceStartButtonListener =
     new Button.OnClickListener() {
       public void onClick(View v) {
-        serviceStartButton.setEnabled(false);
-        if(counterService != null) {
-          stopService(serviceIntent);
-        } else {
-          if(conn == null) {
-            Toast.makeText(UMLogger.this, "Profiler failed to start",
-                           Toast.LENGTH_SHORT).show();
-          } else {
-            startService(serviceIntent);
+        PermissionUtils.requestPermission(UMLogger.this, new PermissionUtils.OnPermissionListener() {
+          @Override
+          public void onGranted() {
+            serviceStartButton.setEnabled(false);
+            if(counterService != null) {
+              stopService(serviceIntent);
+            } else {
+              if(conn == null) {
+                Toast.makeText(UMLogger.this, "Profiler failed to start",
+                        Toast.LENGTH_SHORT).show();
+              } else {
+                startService(serviceIntent);
+              }
+            }
           }
-        }
+
+          @Override
+          public void onDenied() {
+
+          }
+        });
       }
   };
 

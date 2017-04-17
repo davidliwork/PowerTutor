@@ -164,15 +164,10 @@ public class OLED extends PowerComponent {
         os.flush();
         p.waitFor();
         if(p.exitValue() != 0) {
-          Log.i(TAG, "failed to change permissions on frame buffer");
         }
       }
     } catch (InterruptedException e) {
-      Log.i(TAG, "changing permissions on frame buffer interrupted");
     } catch (IOException e) {
-      Log.i(TAG, "unexpected exception while changing permission on " +
-            "frame buffer");
-      e.printStackTrace();
     }
 
     DisplayMetrics metrics = new DisplayMetrics();
@@ -227,12 +222,10 @@ public class OLED extends PowerComponent {
         brightness = Settings.System.getInt(context.getContentResolver(),
                                             Settings.System.SCREEN_BRIGHTNESS);
       } catch(Settings.SettingNotFoundException ex) {
-        Log.w(TAG, "Could not retrieve brightness information");
         return result;
       }
     }
     if(brightness < 0 || 255 < brightness) {
-      Log.w(TAG, "Could not retrieve brightness information");
       return result;
     }
 

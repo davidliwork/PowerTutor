@@ -91,16 +91,12 @@ public class PhoneSelector {
 
     public static PhoneConstants getConstants(Context context) {
         boolean oled = hasOled();
-        Log.w(TAG, "Phone type not recognized (" + Build.DEVICE + "), using " +
-                (oled ? "Passion" : "Dream") + " constants");
         return oled ? new OledConstants(context) :
                 new DreamConstants(context);
     }
 
     public static PhonePowerCalculator getCalculator(Context context) {
         boolean oled = hasOled();
-        Log.w(TAG, "Phone type not recognized (" + Build.DEVICE + "), using " +
-                (oled ? "Passion" : "Dream") + " calculator");
         return oled ? new OledPowerCalculator(context) :
                 new DreamPowerCalculator(context);
     }

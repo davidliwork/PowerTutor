@@ -102,10 +102,6 @@ public abstract class PowerComponent extends Thread {
       long oldIter = iter;
       iter = (long)Math.max(iter + 1,
                             1 + (curTime - beginTime) / iterationInterval);
-      if(oldIter + 1 != iter) {
-        Log.w(TAG, "[" + getComponentName() + "] Had to skip from iteration " +
-                   oldIter + " to " + iter);
-      }
       /* Sleep until the next iteration completes. */
       try {
 			  sleep(beginTime + iter * iterationInterval - curTime);
@@ -131,10 +127,6 @@ public abstract class PowerComponent extends Thread {
       if(iteration2 <= iteration) {
         data2 = null;
         iteration2 = -1;
-      }
-      if(ret == null) {
-        Log.w(TAG, "[" + getComponentName() + "] Could not find data for " +
-                   "requested iteration");
       }
       return ret;
     }

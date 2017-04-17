@@ -141,7 +141,6 @@ public class MiscView extends Activity {
       counterService = null;
       getApplicationContext().unbindService(conn);
       getApplicationContext().bindService(serviceIntent, conn, 0);
-      Log.w(TAG, "Unexpectedly lost connection to service");
     }
   }
 
@@ -455,7 +454,6 @@ public class MiscView extends Activity {
             txt.setText("" + (100 - score));
           }
         } catch(RemoteException e) {
-          Log.w(TAG, "Failed to request oled score information");
         }
       }
 

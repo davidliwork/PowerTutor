@@ -78,7 +78,6 @@ public class Configure extends Activity {
             objout.close();
             val = HexEncode.encode(ba.toByteArray());
           } catch(IOException e) {
-            Log.w(TAG, "Failed to write data sources to string");
             finish();
           }
           String key = "widget_" + widgetId;

@@ -30,11 +30,7 @@ public class NativeLoader {
     try {
       System.loadLibrary("bindings");
       loadOk = true;
-    } catch(SecurityException e) {
-      Log.w(TAG, "Failed to load jni dll, will fall back on pure java");
-      loadOk = false;
-    } catch(UnsatisfiedLinkError e) {
-      Log.w(TAG, "Failed to load jni dll, will fall back on pure java");
+    } catch(SecurityException | UnsatisfiedLinkError e) {
       loadOk = false;
     }
   }

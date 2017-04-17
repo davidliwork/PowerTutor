@@ -130,8 +130,7 @@ public class PowerEstimator implements Runnable {
       logStream = new OutputStreamWriter(deflateStream);
     } catch(IOException e) {
       logStream = null;
-      Log.e(TAG, "Failed to open log file.  No log will be kept.");
-    }    
+    }
   }
   
   /** This is the loop that keeps updating the power profile
@@ -233,7 +232,6 @@ public class PowerEstimator implements Runnable {
                 try {
                   logStream.write("associate " + uid + " " + newAppId + "\n");
                 } catch(IOException e) {
-                  Log.w(TAG, "Failed to write to log file");
                 }
               }
               uidAppIds.put(uid, newAppId);
@@ -380,7 +378,6 @@ public class PowerEstimator implements Runnable {
             }
           }
         } catch(IOException e) {
-          Log.w(TAG, "Failed to write to log file");
         }
 
         if(iter % 15 == 0 && prefs.getBoolean("sendPermission", true)) {
@@ -391,7 +388,6 @@ public class PowerEstimator implements Runnable {
             try {
               logStream.close();
             } catch(IOException e) {
-              Log.w(TAG, "Failed to flush and close log stream");
             }
             logStream = null;
             logUploader.upload(context.getFileStreamPath(
@@ -429,7 +425,6 @@ public class PowerEstimator implements Runnable {
       if(logStream != null) try {
         logStream.close();
       } catch(IOException e) {
-        Log.w(TAG, "Failed to flush log file on exit");
       }
     }
   }
@@ -443,7 +438,6 @@ public class PowerEstimator implements Runnable {
       if(logStream != null) try {
         logStream.write(m);
       } catch(IOException e) {
-        Log.w(TAG, "Failed to write message to power log");
       }
     }
   }

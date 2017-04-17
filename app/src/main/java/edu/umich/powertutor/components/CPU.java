@@ -100,12 +100,10 @@ public class CPU extends PowerComponent {
     SystemInfo sysInfo = SystemInfo.getInstance();
     double freq = readCpuFreq(sysInfo);
     if(freq < 0) {
-      Log.w(TAG, "Failed to read cpu frequency");
       return result;
     }
 
     if(!sysInfo.getUsrSysTotalTime(statsBuf)) {
-      Log.w(TAG, "Failed to read cpu times");
       return result;
     }
 
@@ -332,7 +330,6 @@ public class CPU extends PowerComponent {
     try {
       fstream = new FileReader(CPU_FREQ_FILE);
     } catch (FileNotFoundException e) {
-      Log.w(TAG, "Could not read cpu frequency file");
       return -1;
     }
     BufferedReader in = new BufferedReader(fstream, 500);
@@ -348,7 +345,6 @@ public class CPU extends PowerComponent {
     } catch(NumberFormatException e) {
       /* Frequency not formatted properly as a double. */
     }
-    Log.w(TAG, "Failed to read cpu frequency");
     return -1;
   }
 }

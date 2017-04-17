@@ -148,7 +148,6 @@ public class GPS extends PowerComponent {
           hookMethod |= HOOK_NOTIFICATIONS;
         }
       } catch(NumberFormatException e) {
-        Log.w(TAG, "Could not parse sdk version: " + Build.VERSION.SDK);
       }
     }
     /* If we don't have a way of getting the off<->sleep transitions through
@@ -231,8 +230,6 @@ public class GPS extends PowerComponent {
           }
           if(!interrupted()) {
             // TODO: Have this instead just switch to use different hooks.
-            Log.w(TAG, "GPS status thread exited. " +
-                  "No longer gathering gps data.");
           }
         }
       };
@@ -430,7 +427,6 @@ public class GPS extends PowerComponent {
             curState = POWER_STATE_OFF;
             break;
           default:
-            Log.w(TAG, "Unknown GPS event captured");
         }
         if(curState != oldState) {
           if(oldState == POWER_STATE_ON && curState == POWER_STATE_SLEEP) {

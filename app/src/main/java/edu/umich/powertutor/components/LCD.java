@@ -141,12 +141,10 @@ public class LCD extends PowerComponent {
         brightness = Settings.System.getInt(context.getContentResolver(),
                                             Settings.System.SCREEN_BRIGHTNESS);
       } catch(Settings.SettingNotFoundException ex) {
-        Log.w(TAG, "Could not retrieve brightness information");
         return result;
       }
     }
     if(brightness < 0 || 255 < brightness) {
-      Log.w(TAG, "Could not retrieve brightness information");
       return result;
     }
 

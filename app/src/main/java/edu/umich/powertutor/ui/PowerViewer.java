@@ -172,7 +172,6 @@ public class PowerViewer extends Activity {
       counterService = null;
       getApplicationContext().unbindService(conn);
       getApplicationContext().bindService(serviceIntent, conn, 0);
-      Log.w(TAG, "Unexpectedly lost connection to service");
     }
   }
 
@@ -326,7 +325,6 @@ public class PowerViewer extends Activity {
                                                          uid)[0];
         }
       } catch(RemoteException e) {
-        Log.w(TAG, "Failed to get data from service");
         for(int i = 0; i < numVals; i++) {
           values[i] = 0;
         }

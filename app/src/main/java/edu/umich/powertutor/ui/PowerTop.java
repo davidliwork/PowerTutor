@@ -52,6 +52,7 @@ import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Locale;
 
+import edu.umich.powertutor.R;
 import edu.umich.powertutor.aidl.ICounterService;
 import edu.umich.powertutor.service.PowerEstimator;
 import edu.umich.powertutor.service.UMLoggerService;
@@ -177,7 +178,7 @@ public class PowerTop extends Activity implements Runnable {
         builder.setTitle("Select sort key");
         builder.setItems(KEY_NAMES, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-              prefs.edit().putInt("topKeyId", item).commit();
+              prefs.edit().putInt("topKeyId", item).apply();
             }
         });
         return builder.create();
@@ -186,7 +187,7 @@ public class PowerTop extends Activity implements Runnable {
         builder.setItems(Counter.WINDOW_NAMES,
           new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
-              prefs.edit().putInt("topWindowType", item).commit();
+              prefs.edit().putInt("topWindowType", item).apply();
             }
         });
         return builder.create();
@@ -197,7 +198,7 @@ public class PowerTop extends Activity implements Runnable {
   private void refreshView() {
     if(counterService == null) {
       TextView loadingText = new TextView(this);
-      loadingText.setText("Waiting for profiler service...");
+      loadingText.setText(R.string.waiting_profiler_service);
       loadingText.setGravity(Gravity.CENTER);
       setContentView(loadingText);
       return;
@@ -241,22 +242,22 @@ public class PowerTop extends Activity implements Runnable {
         Arrays.sort(uidInfos);
 
         int sz = 0;
-        for(int i = 0; i < uidInfos.length; i++) {
-          if(uidInfos[i].uid == SystemInfo.AID_ALL ||
-             uidInfos[i].percentage < HIDE_UID_THRESHOLD) {
+        for (UidInfo uidInfo : uidInfos) {
+          if (uidInfo.uid == SystemInfo.AID_ALL ||
+                  uidInfo.percentage < HIDE_UID_THRESHOLD) {
             continue;
           }
           UidPowerView powerView;
-          if(sz < topGroup.getChildCount()) {
-            powerView = (UidPowerView)topGroup.getChildAt(sz);
+          if (sz < topGroup.getChildCount()) {
+            powerView = (UidPowerView) topGroup.getChildAt(sz);
           } else {
             powerView = UidPowerView.obtain(this, getIntent());
             topGroup.addView(powerView);
           }
           powerView.setBackgroundDrawable(null);
           powerView.setBackgroundColor((sz & 1) == 0 ? 0xFF000000 :
-                                       0xFF222222);
-          powerView.init(uidInfos[i], keyId);
+                  0xFF222222);
+          powerView.init(uidInfo, keyId);
           sz++;
         }
         for(int i = sz; i < topGroup.getChildCount(); i++) {
@@ -265,10 +266,7 @@ public class PowerTop extends Activity implements Runnable {
         }
         topGroup.removeViews(sz, topGroup.getChildCount() - sz);
       }
-    } catch(IOException e) {
-    } catch(RemoteException e) {
-    } catch(ClassNotFoundException e) {
-    } catch(ClassCastException e) {
+    } catch(IOException | RemoteException | ClassNotFoundException | ClassCastException e) {
     }
     setContentView(mainView);
     if(keyId == KEY_CURRENT_POWER) {
@@ -321,12 +319,12 @@ public class PowerTop extends Activity implements Runnable {
       imageView.setMinimumWidth(50);
       imageView.setLayoutParams(new ViewGroup.LayoutParams(
           ViewGroup.LayoutParams.WRAP_CONTENT,
-          ViewGroup.LayoutParams.FILL_PARENT));
+          ViewGroup.LayoutParams.MATCH_PARENT));
       textView = new TextView(activity);
       textView.setGravity(Gravity.CENTER_VERTICAL);
       textView.setLayoutParams(new ViewGroup.LayoutParams(
-          ViewGroup.LayoutParams.FILL_PARENT,
-          ViewGroup.LayoutParams.FILL_PARENT));
+          ViewGroup.LayoutParams.MATCH_PARENT,
+          ViewGroup.LayoutParams.MATCH_PARENT));
       addView(imageView);
       addView(textView);
       setOnClickListener(new OnClickListener() {
@@ -375,7 +373,7 @@ public class PowerTop extends Activity implements Runnable {
   private class CounterServiceConnection implements ServiceConnection {
     public void onServiceConnected(ComponentName className,
                                    IBinder boundService ) {
-      counterService = ICounterService.Stub.asInterface((IBinder)boundService);
+      counterService = ICounterService.Stub.asInterface(boundService);
       try {
         componentNames = counterService.getComponents();
         noUidMask = counterService.getNoUidMask();
@@ -397,18 +395,18 @@ public class PowerTop extends Activity implements Runnable {
               int ignMask = prefs.getInt("topIgnoreMask", 0);
               if((ignMask & 1 << index) == 0) {
                 prefs.edit().putInt("topIgnoreMask", ignMask | 1 << index)
-                            .commit();
+                            .apply();
                 filterToggle.setTextColor(0xFF888888);
               } else {
                 prefs.edit().putInt("topIgnoreMask", ignMask & ~(1 << index))
-                            .commit();
+                            .apply();
                 filterToggle.setTextColor(0xFFFFFFFF);
               }
             }
           });
           filterGroup.addView(filterToggle,
-              new LinearLayout.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
-                      ViewGroup.LayoutParams.FILL_PARENT, 1f));
+              new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                      ViewGroup.LayoutParams.MATCH_PARENT, 1f));
         }
       } catch(RemoteException e) {
         counterService = null;
@@ -419,7 +417,6 @@ public class PowerTop extends Activity implements Runnable {
       counterService = null;
       getApplicationContext().unbindService(conn);
       getApplicationContext().bindService(serviceIntent, conn, 0);
-      Log.w(TAG, "Unexpectedly lost connection to service");
     }
   }
 }
