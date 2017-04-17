@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/PowerTutorBattery.iml" filepath="$PROJECT_DIR$/PowerTutorBattery.iml" />
+      <module fileurl="file://$PROJECT_DIR$/PowerTutor.iml" filepath="$PROJECT_DIR$/PowerTutor.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

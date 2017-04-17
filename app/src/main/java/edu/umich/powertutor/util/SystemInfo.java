@@ -212,8 +212,7 @@ public class SystemInfo {
     return -1;
   }
 
-  public int getUidForProcessInfo(
-      ActivityManager.RunningAppProcessInfo app) {
+  public int getUidForProcessInfo(ActivityManager.RunningAppProcessInfo app) {
     /* Try to access the uid field first if it is avaialble. Otherwise just
      * convert the pid to a uid.
      */

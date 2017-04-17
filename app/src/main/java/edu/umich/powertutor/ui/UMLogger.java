@@ -205,14 +205,14 @@ public class UMLogger extends Activity  {
             public void onClick(DialogInterface dialog, int id) {
               prefs.edit().putBoolean("firstRun", false)
                           .putBoolean("runOnStartup", true)
-                          .putBoolean("sendPermission", true).commit();
+                          .putBoolean("sendPermission", true).apply();
               dialog.dismiss();
             }
           })
           .setNegativeButton("Do not agree",
              new DialogInterface.OnClickListener() {
                public void onClick(DialogInterface dialog, int id) {
-                 prefs.edit().putBoolean("firstRun", true).commit();
+                 prefs.edit().putBoolean("firstRun", true).apply();
                  finish();
                }
           });
@@ -222,7 +222,7 @@ public class UMLogger extends Activity  {
           .setCancelable(true)
           .setPositiveButton("Stop", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-              prefs.edit().putBoolean("sendPermission", false).commit();
+              prefs.edit().putBoolean("sendPermission", false).apply();
               dialog.dismiss();
             }
           })
@@ -237,7 +237,7 @@ public class UMLogger extends Activity  {
           .setCancelable(true)
           .setPositiveButton("Start", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-              prefs.edit().putBoolean("sendPermission", true).commit();
+              prefs.edit().putBoolean("sendPermission", true).apply();
               dialog.dismiss();
             }
           })

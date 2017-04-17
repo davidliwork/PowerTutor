@@ -21,15 +21,30 @@ package edu.umich.powertutor.phone;
 
 import android.content.Context;
 
+import edu.umich.powertutor.components.OLED.OledData;
+
 /* Most of this file should be inheritted from DreamPowerCalculator as most of
  * the hardware model details will be the same modulo the coefficients.
  */
-public class SapphirePowerCalculator extends DreamPowerCalculator {
-  public SapphirePowerCalculator(Context context) {
-    super(new SapphireConstants(context));
+public class OledPowerCalculator extends DreamPowerCalculator {
+  public OledPowerCalculator(Context context) {
+    super(new OledConstants(context));
   }
 
-  public SapphirePowerCalculator(PhoneConstants coeffs) {
+  public OledPowerCalculator(PhoneConstants coeffs) {
     super(coeffs);
+  }
+
+  @Override
+  public double getOledPower(OledData data) {
+    if(!data.screenOn) {
+      return 0;
+    }
+    if(data.pixPower == -1) {
+      /* No pixel power available :(. */
+      return coeffs.oledBasePower() + coeffs.lcdBrightness() * data.brightness;
+    } else {
+      return coeffs.oledBasePower() + data.pixPower * data.brightness;
+    }
   }
 }

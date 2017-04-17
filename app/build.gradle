@@ -20,7 +20,8 @@ android {
 }
 
 dependencies {
-    provided  fileTree(dir: 'libs', include: ['*.jar'])
+    provided  fileTree(dir: 'libs', include: ['android-9.jar'])
+    compile  fileTree(dir: 'libs', include: ['achartengine-1.0.0.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })

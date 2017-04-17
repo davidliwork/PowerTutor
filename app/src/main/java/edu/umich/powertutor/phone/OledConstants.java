@@ -23,11 +23,11 @@ import android.content.Context;
 import android.util.DisplayMetrics;
 import android.view.WindowManager;
 
-public class PassionConstants extends DreamConstants {
+public class OledConstants extends DreamConstants {
   protected int screenWidth;
   protected int screenHeight;
 
-  public PassionConstants(Context context) {
+  public OledConstants(Context context) {
     super(context);
     DisplayMetrics metrics = new DisplayMetrics();
     WindowManager windowManager =

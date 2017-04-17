@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.text.DecimalFormat;
 import java.util.Arrays;
+import java.util.Locale;
 
 import edu.umich.powertutor.aidl.ICounterService;
 import edu.umich.powertutor.service.PowerEstimator;
@@ -363,8 +364,8 @@ public class PowerTop extends Activity implements Runnable {
         prefix = "m";
       }
       long secs = (long)Math.round(uidInfo.runtime);
-      
-      textView.setText(String.format("%1$.1f%% [%3$d:%4$02d:%5$02d] %2$s\n" +
+
+      textView.setText(String.format(Locale.ENGLISH,"%1$.1f%% [%3$d:%4$02d:%5$02d] %2$s\n" +
           "%6$.1f %7$s%8$s",
           uidInfo.percentage, name, secs / 60 / 60, (secs / 60) % 60,
           secs % 60, uidInfo.key, prefix, uidInfo.unit));

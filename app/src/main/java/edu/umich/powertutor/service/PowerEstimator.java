@@ -272,10 +272,10 @@ public class PowerEstimator implements Runnable {
 //                                   avgPower);
       }
 
-      /* Update the widget. */
-      if(iter % 60 == 0) {
-        PowerWidget.updateWidget(context, this);
-      }
+//      /* Update the widget. */
+//      if(iter % 60 == 0) {
+//        PowerWidget.updateWidget(context, this);
+//      }
 
       if(bst.hasCurrent()) {
         double current = bst.getCurrent();
@@ -403,8 +403,8 @@ public class PowerEstimator implements Runnable {
       }
     }
 
-    /* Blank the widget's display and turn off power button. */
-    PowerWidget.updateWidgetDone(context);
+//    /* Blank the widget's display and turn off power button. */
+//    PowerWidget.updateWidgetDone(context);
 
     /* Have all of the power component threads exit. */
     logUploader.interrupt();
